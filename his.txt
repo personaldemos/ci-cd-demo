@@ -1,0 +1,308 @@
+    1  exit
+    2  ssh-keygen -t rsa
+    3  cd .ssh/
+    4  ls
+    5  cat id_rsa.pub 
+    6  vi authorized_keys 
+    7  cd ~
+    8  ssh root@192.168.10.177
+    9  sudo subscription-manager register --username=himmatb@virtusa.com --password=banna.1234
+   10  sudo subscription-manager list --available
+   11  sudo subscription-manager attach --pool=8a85f9876188d56b01618dfe24b5781d
+   12  sudo subscription-manager repos --disable="*"
+   13  sudo subscription-manager repos     --enable="rhel-7-server-rpms"     --enable="rhel-7-server-extras-rpms"     --enable="rhel-7-server-ose-3.6-rpms"
+   14  yum repolist
+   15   yum install wget git net-tools bind-utils iptables-services bridge-utils bash-completion kexec-tools sos psacct
+   16   yum install atomic-openshift-utils
+   17  ansible -version
+   18  ansible --version
+   19  docker --version
+   20  yum install docker
+   21  docker -version
+   22  docker --version
+   23  vi /etc/ansible/hosts 
+   24  ansible all -m ping
+   25  ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml 
+   26  vi /etc/ansible/hosts 
+   27  yum repolist
+   28   yum-config-manager --disable \*
+   29  subscription-manager repos     --enable="rhel-7-server-rpms"     --enable="rhel-7-server-extras-rpms"     --enable="rhel-7-server-ose-3.6-rpms"     --enable="rhel-7-fast-datapath-rpms"
+   30  yum repolist
+   31  ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml 
+   32  sudo oc get nodes
+   33  htpasswd -n admin
+   34  vi users.txt
+   35  pwd
+   36  vi /etc/origin/master/master-config.yaml 
+   37  systemctl restart atomic-openshift-master.service 
+   38  sudo oc adm policy add-role-to-user admin admin
+   39  sudo oc adm policy add-cluster-role-to-user admin admin
+   40  sudo oc get nodes
+   41  sudo oc edit node ip-192-168-10-177.ap-northeast-2.compute.internal
+   42  sudo oc label node ip-192-168-10-177.ap-northeast-2.compute.internal region=infra
+   43  sudo oc edit namespace default
+   44  sudo oc project test1
+   45  oc new-app     -e MONGODB_USER=test     -e MONGODB_PASSWORD=test     -e MONGODB_DATABASE=test     -e MONGODB_ADMIN_PASSWORD=test     registry.access.redhat.com/rhscl/mongodb-26-rhel7
+   46  sudo oc project test2
+   47  oc new-app     -e MONGODB_USER=test     -e MONGODB_PASSWORD=test     -e MONGODB_DATABASE=test     -e MONGODB_ADMIN_PASSWORD=test     registry.access.redhat.com/rhscl/mongodb-26-rhel7
+   48  sudo oc project test3
+   49  oc new-app     -e MONGODB_USER=test     -e MONGODB_PASSWORD=test     -e MONGODB_DATABASE=test     -e MONGODB_ADMIN_PASSWORD=test     registry.access.redhat.com/rhscl/mongodb-26-rhel7
+   50  sudo oc get netnamespace
+   51  vi /etc/origin/master/master-config.yaml 
+   52  systemctl restart atomic-openshift-master.service 
+   53  sudo oc get netnamespace
+   54  vi /etc/origin/node/node-config.yaml 
+   55  sudo oc adm pod-network isolate-projects test1 test2
+   56  sudo oc get netnamespace
+   57  systemctl status atomic-openshift-node.service 
+   58  systemctl restart atomic-openshift-node.service 
+   59  systemctl restart atomic-openshift-master.service 
+   60  vi /etc/origin/node/node-config.yaml 
+   61  systemctl restart atomic-openshift-node.service 
+   62  sudo oc adm pod-network join-projects --to=default test1
+   63  sudo oc get netnamespace
+   64  sudo oc adm pod-network join-projects --to=test1 test1
+   65  sudo oc get netnamespace
+   66  curl -O https://raw.githubusercontent.com/openshift/origin/master/contrib/migration/migrate-network-policy.sh
+   67  ll
+   68  chmod +x migrate-network-policy.sh 
+   69  ll
+   70  curl -O https://raw.githubusercontent.com/openshift/origin/master/contrib/migration/unmigrate-network-policy.sh
+   71  sh migrate-network-policy.sh 
+   72  ./migrate-network-policy.sh 
+   73  sudo oc get namespace
+   74  sudo oc get netnamespace
+   75  sudo oc adm pod-network join-projects --to=default test1
+   76  vi /etc/origin/node/node-config.yaml 
+   77  systemctl restart atomic-openshift-node.service 
+   78  ll
+   79  chmod +x unmigrate-network-policy.sh 
+   80  chmod a+x unmigrate-network-policy.sh 
+   81  ./unmigrate-network-policy.sh 
+   82  sudo oc get netnamespace
+   83  chmod a+x migrate-network-policy.sh 
+   84  ./migrate-network-policy.sh 
+   85  sudo oc adm pod-network join-projects --to=test2 test1
+   86  reboot
+   87  sudo oc get netnamespace
+   88  sudo oc adm pod-network join-projects --to=test3 test1
+   89  sudo oc adm isolate-network test3 test1
+   90  sudo oc adm po-network  isolate-projects test3 test1
+   91  sudo oc adm pod-network isolate-projects test3 test1
+   92  sudo oc adm pod-network join-projects --to=test3 test1
+   93  sudo oc adm pod-network isolate-projects test3 test1
+   94  sudo oc get netnamespace
+   95  dockdr images
+   96  docker images
+   97  docker pull redis
+   98  docker images
+   99  docker ps
+  100  sudo oc whami -t
+  101  sudo oc whoami -t
+  102  sudo oc logini
+  103  sudo oc login
+  104  sudo oc whoami -t
+  105  sudo oc get svc
+  106  sudo oc get svc -n default
+  107  docker images
+  108  docker tag docker.io/redis 172.30.71.47:5000/openshift/redis
+  109  docker login 172.30.71.47:5000
+  110  docker push 172.30.71.47:5000/openshift/redis
+  111  docker tag registry.access.redhat.com/openshift3/ose-deployer 172.30.71.47:5000/openshift/ose-deployer
+  112  docker tag registry.access.redhat.com/openshift3/ose-deployer:v3.6.173.0.96 172.30.71.47:5000/openshift/ose-deployer
+  113  docker push 172.30.71.47:5000/openshift/ose-deployer
+  114  find / -name registry
+  115  du -sh /var/lib/origin/openshift.local.volumes/pods/3e4f3cd5-212e-11e8-821b-02ea2b3ecb94/volumes/kubernetes.io~empty-dir/registry-storage/docker/registry
+  116  docker run -itd redis 
+  117  docker ps
+  118  docker exec -it 1013d2b33fa1         bash
+  119  docker ps
+  120  docker commit -p 1013d2b33fa1 redis
+  121  docker tag redis 172.30.71.47:5000/openshift/redis
+  122  docker push 172.30.71.47:5000/openshift/redis
+  123  du -sh /var/lib/origin/openshift.local.volumes/pods/3e4f3cd5-212e-11e8-821b-02ea2b3ecb94/volumes/kubernetes.io~empty-dir/registry-storage/docker/registry
+  124  docker ps
+  125  docker exec -it 9a8fa66cd9e3 bash
+  126  docker ps
+  127  docker exec -it 9a8fa66cd9e3 bash
+  128  ls
+  129  oc login
+  130  ls
+  131  vi /etc/origin/master/master-config.yaml
+  132  vi /etc/origin/node/node-config.yaml
+  133  systemctl restart atomic-openshift-master-api atomic-openshift-master-controllers
+  134  systemctl restart atomic-openshift-master-controllers
+  135  systemctl restart atomic-openshift-master
+  136  systemctl restart atomic-openshift-node
+  137  systemctl status atomic-openshift-node.service
+  138  vi /etc/origin/node/node-config.yaml 
+  139  systemctl restart atomic-openshift-node
+  140  vi /etc/origin/master/master-config.yaml
+  141  systemctl restart atomic-openshift-master
+  142  sudo oc adm pod-network isolate-projects test3 test1
+  143  reboot
+  144  vi /etc/origin/master/master-config.yaml
+  145  vi /etc/origin/node/node-config.yaml
+  146  reboot
+  147  oadm pod-network join-projects --to=test1 test2
+  148  sudo oadm pod-network join-projects --to=test1 test2
+  149  sudo oc login
+  150  oadm pod-network join-projects --to=test1 test2
+  151  sudo oadm pod-network join-projects --to=test1 test2
+  152  sudo oc oadm pod-network join-projects --to=test1 test2
+  153  sudo ocadm pod-network join-projects --to=test1 test2
+  154  sudo oc adm pod-network join-projects --to=test1 test2
+  155  oadm pod-network join-projects --to=test1 test2
+  156  systemctl restart atomic-openshift-master
+  157  systemctl restart atomic-openshift-node
+  158  oadm pod-network join-projects --to=test1 test2
+  159  sudo oadm pod-network join-projects --to=test1 test2
+  160  reboot
+  161  sudo oc login
+  162  sudo oadm pod-network join-projects --to=test1 test2
+  163  oadm pod-network join-projects --to=test1 test2
+  164  oadm pod-network join-projects -h
+  165  oadm pod-network join-projects --to=test1 test2
+  166  vi /etc/origin/master/master-config.yaml
+  167  oc get netnamespace
+  168  sudo oc get netnamespace
+  169  sudo oc get netnamespaces
+  170  sudo oc get netnamespace
+  171  oc get nodes
+  172  sudo oadm policy add-cluster-role-to-user cluster-admin admin --config=/var/lib/origin/openshift.local.config/master/admin.kubeconfig
+  173  oc project default
+  174  oc get pv; oc get pvc
+  175  sudo oc adm add-policy-to-user admin admin
+  176  sudo oc adm policy add-policy-to-user admin admin
+  177  sudo oadm policy add-policy-to-user admin admin
+  178  sudo oadm policy add-role-to-user admin admin
+  179  sudo oadm policy add-cluster-role-to-user admin admin
+  180  sudo oc login system:admin
+  181  sudo oc login
+  182  sudo oc get pods -o wide -n default
+  183  mount -a
+  184  df -h
+  185  vi /etc/fstab 
+  186  mount -a
+  187  cd /
+  188  mkdir docker_storage
+  189  mount -a
+  190  df -h
+  191  ls
+  192  mkdir nexus
+  193  cd nexus/
+  194  vi pv.yaml
+  195  sudo oc create -f pv.yaml 
+  196  sudo oc get clusterrolebindings
+  197  htpasswd -n admin1
+  198  cd ..
+  199  vi usercd cd /root/vi usr/
+  200  cd /root/
+  201  vi users.txt 
+  202  vi /etc/origin/master/master-config.yaml 
+  203  systemctl restart atomic-openshift-master.service 
+  204  sudo oc login -u system:admin
+  205  sudo oc adm policy add-role-to-user admin admin1
+  206  sudo oc adm policy add-cluster-role-to-user admin admin1
+  207  sudo oc get pv
+  208  sudo oc create -f pv.yaml cd 
+  209  cd /nexus/
+  210  ls
+  211  sudo oc create -f pv.yaml 
+  212  sudo oc get pv
+  213  oc new-project nexus
+  214  vi per-temp.yaml
+  215  sudo oc create -f per-temp.yaml 
+  216  sudo oc new-app per-temp.yaml 
+  217  sudo oc edit scc anyuid
+  218  sudo oadm policy add-scc-to-user anyuid -z default
+  219  sudo oc edit scc anyuid
+  220  cd /docker_storage/
+  221  ls
+  222  oc patch dc nexus -p '{"spec":{"template":{"spec":{"containers":[{"name":"nexus","ports":[{"containerPort": 5000,"protocol":"TCP","name":"docker"}]}]}}}}'
+  223  oc expose dc nexus --name=nexus-registry --port=5000
+  224  oc create route edge nexus-registry --service=nexus-registry
+  225  oc get route | grep registry
+  226  vi /etc/origin/master/master-config.yaml 
+  227  systemctl restart atomic-openshift-master.service 
+  228  systemctl status atomic-openshift-master.service
+  229  vi /etc/origin/master/master-config.yaml 
+  230  systemctl status atomic-openshift-master.service
+  231  systemctl restart atomic-openshift-master.service 
+  232  docker images
+  233  cd nexus
+  234  mkdir nexus
+  235  cd nexus/
+  236  ls
+  237  wget https://github.com/sonatype/docker-nexus3.git
+  238  ls
+  239  rm -rf docker-nexus3.git 
+  240  git clone https://github.com/sonatype/docker-nexus3.git
+  241  ls
+  242  cd docker-nexus3/
+  243  ls
+  244  docker build -t nexus .
+  245  docker images
+  246  sudo oc login
+  247  sudo oc get svc 
+  248  ls
+  249  sudo oc get template -n openshift
+  250  sudo oc get template -n openshift | grep php
+  251  sudo oc get template -n openshift | grep redhat
+  252  sudo oc get template -n openshift | grep openjdk
+  253  sudo oc edit template openjdk18-web-basic-s2i
+  254  sudo oc edit template openjdk18-web-basic-s2i -N OPENSHIFT
+  255  sudo oc edit template openjdk18-web-basic-s2i -n openshift
+  256  vi springboot-app.yaml
+  257  sudo oc create -f springboot-app.yaml 
+  258  oc project
+  259  ls
+  260  vi s2i.yaml
+  261  sudo oc create -f s2i.yaml -n nexus
+  262  sudo oc import-image nexus-nexus.ovs.virtusalabs.com:80/nexus/redhat-openjdk18-openshift --from nexus-nexus.ovs.virtusalabs.com:80 --confirm
+  263  sudo oc import-image nexus/redhat-openjdk18-openshift --from nexus-nexus.ovs.virtusalabs.com:80 --confirm
+  264  sudo oc import-image nexus/redhat-openjdk18-openshift --confirm
+  265  sudo oc import-image  nexus-nexus.ovs.virtusalabs.com:80:/nexus/redhat-openjdk18-openshift --confirm
+  266  sudo oc import-image  nexus-nexus.ovs.virtusalabs.com:80/nexus/redhat-openjdk18-openshift --confirm
+  267  sudo oc import-image  nexus-nexus.ovs.virtusalabs.com/nexus/redhat-openjdk18-openshift --confirm
+  268  docker login
+  269  docker login  nexus-nexus.ovs.virtusalabs.com:80
+  270  vi /etc/sysconfig/docker
+  271  systemctl restart docker 
+  272  vi /etc/sysconfig/docker
+  273  systemctl restart docker 
+  274  dcoker login nexus-registry-nexus.ovs.virtusalabs.com:80
+  275  docker login nexus-registry-nexus.ovs.virtusalabs.com:80
+  276  dcoker login nexus-registry-nexus.ovs.virtusalabs.com:80
+  277  docker login nexus-registry-nexus.ovs.virtusalabs.com:80
+  278  sudo oc import-image  nexus-registry-nexus.ovs.virtusalabs.com/nexus/redhat-openjdk18-openshift --confirm
+  279  sudo oc import-image  nexus-registry-nexus.ovs.virtusalabs.com:80/nexus/redhat-openjdk18-openshift --confirm
+  280  sudo oc import-image  nexus-registry-nexus.ovs.virtusalabs.com:80/nexus/redhat-openjdk18-openshift --from nexus-registry-nexus.ovs.virtusalabs.com:80 --confirm
+  281  sudo oc import-image redhat-openjdk18-openshift --from nexus-registry-nexus.ovs.virtusalabs.com:80/nexus/ --confirm
+  282  sudo oc import-image redhat-openjdk18-openshift --from nexus-registry-nexus.ovs.virtusalabs.com:80/nexu/ --confirm
+  283  sudo oc import-image redhat-openjdk18-openshift --from nexus-registry-nexus.ovs.virtusalabs.com:80/nexus --confirm
+  284  oc secrets new-dockercfg reg     --docker-server=nexus-registry-nexus.ovs.virtusalabs.com:80     --docker-username=admin     --docker-password=admin123     --docker-email=test@test.com
+  285  oc secrets reg --help
+  286  sudo oc import-image nexus/redhat-openjdk18-openshift --from nexus-registry-nexus.ovs.virtusalabs.com:80 --confirm
+  287  ls
+  288  history
+  289  sudo oc import-image nexus-registry-nexus.ovs.virtusalabs.com:80/nexus/redhat-openjdk18-openshift --insecure=true --confirm
+  290  vi /etc/origin/master/master-config.yaml 
+  291  systemctl restart atomic-openshift-master.service 
+  292  sudo oc import-image nexus-registry-nexus.ovs.virtusalabs.com:80/nexus/redhat-openjdk18-openshift --insecure=true --confirm
+  293  sudo oc get is
+  294  sudo oc project
+  295  sudo oc get is sudo 
+  296  sudo oc describe is redhat-openjdk18-openshift
+  297  sudo oc describe is redhat-openjdk18-openshift >> is.txt
+  298  vi is.txt 
+  299  sudo oc edit is redhat-openjdk18-openshift
+  300  sudo oc get is
+  301  sudo oc edit is redhat-openjdk18-openshift
+  302  sudo oc get template | grep springboot
+  303  sudo oc get template 
+  304  sudo oc edit template sprinboot-s2i
+  305  sudo oc get secretes
+  306  sudo oc get secrets
+  307  sudo oc secrets add serviceaccount/builder secrets/reg
+  308  history >> his.txt
